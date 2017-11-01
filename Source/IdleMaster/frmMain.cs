@@ -106,10 +106,10 @@ namespace IdleMaster
         {
             foreach (var badge in CanIdleBadges.Where(b => !Equals(b, CurrentBadge)))
             {
-                if (badge.HoursPlayed >= 2 && badge.InIdle)
+                if (badge.HoursPlayed >= 3 && badge.InIdle)
                     badge.StopIdle();
 
-                if (badge.HoursPlayed < 2 && CanIdleBadges.Count(b => b.InIdle) < 30)
+                if (badge.HoursPlayed < 3 && CanIdleBadges.Count(b => b.InIdle) < 30)
                     badge.Idle();
             }
 
@@ -211,7 +211,7 @@ namespace IdleMaster
                     {
                         if (Settings.Default.OneThenMany)
                         {
-                            var multi = CanIdleBadges.Where(b => b.HoursPlayed >= 2);
+                            var multi = CanIdleBadges.Where(b => b.HoursPlayed >= 3);
                             if (multi.Count() >= 1)
                             {
                                 StartSoloIdle(multi.First());
@@ -223,7 +223,7 @@ namespace IdleMaster
                         }
                         else
                         {
-                            var multi = CanIdleBadges.Where(b => b.HoursPlayed < 2);
+                            var multi = CanIdleBadges.Where(b => b.HoursPlayed < 3);
                             if (multi.Count() >= 2)
                             {
                                 StartMultipleIdle();
@@ -861,7 +861,7 @@ namespace IdleMaster
                     await LoadBadgesAsync();
                     UpdateIdleProcesses();
 
-                    isMultipleIdle = CanIdleBadges.Any(b => b.HoursPlayed < 2 && b.InIdle);
+                    isMultipleIdle = CanIdleBadges.Any(b => b.HoursPlayed < 3 && b.InIdle);
                     if (isMultipleIdle)
                         TimeLeft = 360;
                 }
@@ -985,9 +985,9 @@ namespace IdleMaster
 
         private void lblCurrentRemaining_Click(object sender, EventArgs e)
         {
-            if (TimeLeft > 2)
+            if (TimeLeft > 3)
             {
-                TimeLeft = 2;
+                TimeLeft = 3;
             }
         }
 
